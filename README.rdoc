@@ -25,6 +25,11 @@ Things you may want to cover:
 
 * Deployment instructions
 
+* Setup
+  
+  config/application.yml - a file with the SENDGRID USERNAME AND PASSWORD
+  config/application.example.yml - sample application file for HEROKU
+
 * ...
 
 
