@@ -80,5 +80,5 @@ Bloccit::Application.configure do
 
   # http://louisbloccit.herokuapp.com
     config.action_mailer.default_url_options = { host: 'louisbloccit.herokuapp.com' }
-ok
+
 end
