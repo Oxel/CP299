@@ -42,4 +42,11 @@ class TopicsController < ApplicationController
     end
   end
 
+  private
+
+  def topics_params
+    @posts = current_topic.posts.build(post_params)
+  end
+
+
 end
