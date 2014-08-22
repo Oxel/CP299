@@ -1,4 +1,4 @@
-<%= form_for [topic, post] do |f| %>
+<%= simple_form_for [topic, post] do |f| %>
   <% if post.errors.any? %>
 
     <div class="alert alert-danger">
@@ -11,13 +11,9 @@
     </div>
   <% end %>
 
-  <%= simple_form_for [topic, post] do |f| %>
-    <%= f.input :title, input_html: { minlength: 5, placeholder: "Enter post title" }, wrapper_html: { class: 'form-control' } %>
-    <%= f.input :body, input_html: { minlength: 20, placeholder: "Enter body test" }, wrapper_html: {class: 'form-control' } %>
-    <%= f.button :submit %>
-  <% end %>
-    
-    <div class="form-group">
-    <%= f.submit "Save", class: 'btn btn-success'%>
-  </div>
+  <%= f.input :title, placeholder: "Enter post title", input_html: { 'rows' => 5, 'cols' => 10} %>
+  <%= f.input :body, placeholder: "Enter body test" %>
+  <%= f.button :submit %>
+     
+      
 <% end %>
