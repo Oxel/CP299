@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   has_many :posts
   	mount_uploader :avatar, AvatarUploader
+  	mount_uploader :image, ImageUploader
 
   def role?(base_role)
     role == base_role.to_s
