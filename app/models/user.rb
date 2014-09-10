@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   	mount_uploader :avatar, AvatarUploader
   	mount_uploader :image, ImageUploader
 
+  has_many :comments
+
   def role?(base_role)
     role == base_role.to_s
   end
