@@ -23,7 +23,7 @@ class ApplicationPolicy
   end
 
   def update?
-    can_moderate?(record, user)
+    can_moderate?
   end
 
   def edit?
@@ -40,7 +40,7 @@ class ApplicationPolicy
 
   private
 
-  def can_moderate?(user, record)
+  def can_moderate?
     user.present? && (record.user == user || user.role?(:admin))
   end
 

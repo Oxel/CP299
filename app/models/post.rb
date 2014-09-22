@@ -3,7 +3,9 @@ class Post < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   belongs_to :user
   belongs_to :topic
-    mount_uploader :image, ImageUploader
+  mount_uploader :image, ImageUploader
+
+   
 
   def up_votes
     votes.where(value: 1).count
@@ -30,11 +32,11 @@ class Post < ActiveRecord::Base
   
   validates :title, length: { minimum: 5 }, presence: true
   validates :body, length: { minimum: 20}, presence: true
-  # validates :topic, presence: true
-  # validates :user, presence: true
+  validates :topic, presence: true
+  validates :user, presence: true
   # validates :image,  presence: true
 
-  private
+  
 
   def render_as_markdown(text)
     renderer = Redcarpet::Render::HTML.new
@@ -43,7 +45,8 @@ class Post < ActiveRecord::Base
   end
 
   def create_vote
-    after_create :up_vote
+    user.votes.create(value: 1, post: self)
+  end
 
   def markdown_title
     render_as_markdown title

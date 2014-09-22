@@ -2,35 +2,63 @@ require 'rails_helper'
 
 describe Vote do
 	
+	include TestFactories
 
 	describe "validations" do
 
-	before do
-		@vote = @post.votes.where(user_id: current_user.id)
-	end
-		
-		describe "value validation" do
-
-			describe '#up_votes' do
-				before { @vote.value = 1 }
-					it 'tests if the value of up vote is equal to 1'
-			end
-
-			describe '#down_votes' do
-				before { @vote.value = -1 }
-					it 'tests if the value of a down vote is equal to -1'
-					
-			end
-
-			describe '#invalid_votes' do
-				before { @vote.value = 0 }
-					it 'test if the votes is invalid'
-			end
-
-				
+		before do
+			@vote = Vote.new
 		end
+			
+		it 'is valid with a value of 1' do
+			@vote.value = 1
+			expect(@vote).to be_valid
+		end
+
+		it 'is valid with a value of -1' do
+			@vote.value = -1
+			expect(@vote).to be_valid
+		end
+				
+		it 'is invalid with a value of 0' do
+			@vote.value = 0
+			expect(@vote).to be_invalid
+		end
+
+		it 'is invalid with a value of 2' do
+			@vote.value = 2
+			expect(@vote).to be_invalid
+		end
+			
+		it 'is invalid with a value of -2' do
+			@vote.value = -2
+			expect(@vote).to be_invalid
+		end
+
+		it 'is invalid with a value of "foo"' do
+			@vote.value = "foo"
+			expect(@vote).to be_invalid
+		end			
 	end
 end
+
+	describe 'after_save' do
+		it "calls 'Post#update_rank' after save" do
+			request.env["HTTP_REFERER"] = '/'
+			@user = authenticated_user
+			@post = associated_post
+			sign_in @user
+
+			vote = Vote.new(value:1, post: post)
+			expect(post). to receive(:update_rank)
+				vote.save
+		end
+	end
+
+
+
+
+
 
 
 
