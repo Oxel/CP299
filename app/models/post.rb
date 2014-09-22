@@ -1,18 +1,38 @@
 class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
+  has_many :votes, dependent: :destroy
   belongs_to :user
   belongs_to :topic
     mount_uploader :image, ImageUploader
 
-  default_scope { order('created_at DESC') }
+  def up_votes
+    votes.where(value: 1).count
+  end
+
+  def down_votes
+    votes.where(value: -1).count
+  end
+
+  def points
+    votes.sum(:value)
+  end
+
+  def update_rank
+    age = (created_at - Time.new(1970,1,1)) / (60 * 60 * 24) #1 day in seconds
+    new_rank = points + age
+
+    update_attribute(:rank, new_rank)
+  end
+
+  default_scope { order('rank DESC') }
   scope :ordered_by_title, -> { order(:title) }
   scope :ordered_by_reverse_created_at, -> { order('created_at ASC') }
   
   validates :title, length: { minimum: 5 }, presence: true
   validates :body, length: { minimum: 20}, presence: true
-  validates :topic, presence: true
-  validates :user, presence: true
-  validates :image, presence: true
+  # validates :topic, presence: true
+  # validates :user, presence: true
+  # validates :image,  presence: true
 
   private
 
@@ -21,6 +41,9 @@ class Post < ActiveRecord::Base
     extensions = {fenced_code_blocks: true}
     redcarpet = Redcarpet::Markdown.new(renderer, extensions)
   end
+
+  def create_vote
+    after_create :up_vote
 
   def markdown_title
     render_as_markdown title
