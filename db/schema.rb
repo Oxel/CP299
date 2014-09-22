@@ -25,11 +25,14 @@ ActiveRecord::Schema.define(version: 20140922184844) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
   create_table "favorites", force: true do |t|
-    t.text     "post"
-    t.string   "user"
+    t.integer  "post_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "favorites", ["post_id"], name: "index_favorites_on_post_id"
+  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id"
 
   create_table "posts", force: true do |t|
     t.string   "title"
