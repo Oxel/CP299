@@ -1,8 +1,6 @@
 describe Topic do
 	describe "scopes" do
 
-		include TestFactories
-
 		before do
 			@public_topic = Topic.create # default is public
 			@private_topic = Topic.create(public: false)
