@@ -35,13 +35,14 @@
       <%= pluralize(@post.down_votes, 'down vote') %>
     </small>
 </div>
+  <%= render partial: 'favorites/favorite', locals: { post: @post } %>
 
 </br>
 
 <div class="row">
   <h2>Comments</h2>
   <div class='col-md-12'>
-    <%= render @comments %>
+    <%= render partial: 'comments/comment', collection: @comments %>
     <%=render 'comments/form' %>
   </div>
 </div>
