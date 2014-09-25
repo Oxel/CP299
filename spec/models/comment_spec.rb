@@ -7,9 +7,11 @@ describe Comment do
 	describe "after_create" do
 
 		before do
-			@post = associated_post
-			@user = authenticated_user
-			@comment = Comment.new(body: 'My comment', post: @post, user_id:1000)
+			@user = create(:user)
+       post = create(:post, user: @user)
+       create(:comment, user: @user, post: post)
+ 
+      
 		end
 
 		# we don't need to change anything for this condition;
