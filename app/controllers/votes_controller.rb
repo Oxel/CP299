@@ -18,7 +18,7 @@ class VotesController < ApplicationController
 	def load_post_and_vote
 		# extract into this method the definition of @post and @vote
 		@post = Post.find(params[:post_id])
-		@vote = @post.votes.where(user_id: current_user).first
+		@vote = @post.votes.where(user: current_user).first
 	end
 
 	def update_vote!(new_value)
