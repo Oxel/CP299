@@ -8,10 +8,8 @@ describe Comment do
 
 		before do
 			@user = create(:user)
-       post = create(:post, user: @user)
-       create(:comment, user: @user, post: post)
- 
-      
+      @post = create(:post, user: @user)
+      @comment =  create(:comment, user: @user, post: @post)
 		end
 
 		# we don't need to change anything for this condition;
