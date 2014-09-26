@@ -5,16 +5,15 @@ describe User do
 	describe "#favorited(post)" do
 
 		before do
-			
 			@user = create(:user)
-			post = create(:post, user: @user)
-			@favorite = Favorite.new(post @post)
+			@post = create(:post, user: @user)
+			@favorite = Favorite.new(post: @post)
 		end
 
 		it "returns 'nil' if the user has not favorited the post" do
 			
 			expect( FavoriteMailer )
-				.not_to receive(:new_favorite)
+				.not_to receive(:new_comment)
 				.with(@user, @post, 'nil')
 				.and_return( double(deliver: true) )
 			
