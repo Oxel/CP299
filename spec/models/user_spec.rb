@@ -5,31 +5,25 @@ describe User do
 	describe "#favorited(post)" do
 
 		before do
-			
 			@user = create(:user)
-			post = create(:post, user: @user)
-			@favorite = Favorite.new(post @post)
+			@post = create(:post, user: @user)
+			@favorite = Favorite.new(post: @post)
 		end
 
 		it "returns 'nil' if the user has not favorited the post" do
-			
 			expect( FavoriteMailer )
-				.not_to receive(:new_favorite)
+				.not_to receive(:new_comment)
 				.with(@user, @post, 'nil')
-				.and_return( double(deliver: true) )
-			
 		end
 
 		it "returns the appropriate favorite if it exists" do
 			@user.favorites.where(post: @post).after_create
-
 			allow( FavoriteMailer )
-				.to receive(:new_favorite)
+				.to receive(:new_comment)
 				.with(@user, @post, @favorite)
 				.and_return( double(deliver: true) )
 
 			@post.save
-
 		end
 	end
 
@@ -38,7 +32,7 @@ describe User do
 		before do
 			@user1 = create(:user)
 			post = create(:post, user: @user1)
-			create(:comment, user: user1, post: post)
+			create(:comment, user: @user1, post: post)
 
 			@user2 = create(:user)
 			post = create(:post, user: @user2)
@@ -51,7 +45,7 @@ describe User do
 
 		it "stores a 'posts_count' on user" do
 			users = User.top_rated
-			expect( users.first.post_count ).to eq(1)
+			expect( users.first.posts_count ).to eq(1)
 		end
 
 		it "stores a 'comments_count' on user" do

@@ -42,14 +42,13 @@ end
 
 	describe 'after_save' do
 		it "calls 'Post#update_rank' after save" do
-			request.env["HTTP_REFERER"] = '/'
 			@user = create(:user)
-			post = create(:post, user: @user)
-			sign_in @user
+			@post = create(:post, user: @user)
 
-			vote = Vote.new(value:1, post: post)
-			expect(post). to receive(:update_rank)
-				vote.save
+			@vote = Vote.new(value: 1, post: @post)
+			expect(@post). to receive(:update_rank)
+				@vote.save
+				
 		end
 	end
 

@@ -8,10 +8,8 @@ describe Comment do
 
 		before do
 			@user = create(:user)
-       post = create(:post, user: @user)
-       create(:comment, user: @user, post: post)
- 
-      
+      @post = create(:post, user: @user)
+      @comment =  create(:comment, user: @user, post: @post)
 		end
 
 		# we don't need to change anything for this condition;
@@ -39,7 +37,7 @@ describe Comment do
 
 		context "without permission" do
 
-			before { @user.update_attribute(:email_favorites, false) }
+			before { @user.update_attribute(:email_favorites, true) }
 
 			it "does not send emails, even to users who have favorited" do
 				@user.favorites.where(post: @post).create
@@ -52,6 +50,7 @@ describe Comment do
 		end
 	end
 end
+
 
 
 
